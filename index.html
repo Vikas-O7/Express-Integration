@@ -62,58 +62,6 @@
  
 
     
-    function getBase64Image(imgUrl, callback) {
-
- 
-
-        var img = new Image();
-        img.onload = function(){
-            var canvas = document.createElement("canvas");
-            canvas.width = img.width;
-            canvas.height = img.height;
-            var ctx = canvas.getContext("2d");
-            ctx.drawImage(img, 0, 0);
-            var dataURL = canvas.toDataURL("image/png")
-
- 
-
-            callback(dataURL); // the base64 string
-
- 
-
-        };
-        // set attributes and src 
-        img.setAttribute('crossOrigin', 'anonymous'); //
-        img.src = imgUrl;
-    }
-
-    function UrlFunc(){
-        const queryString = window.location.search;
-        const urlParams = new URLSearchParams(queryString);
-        var url = urlParams.get('link');
-        this.getBase64Image(url, function(base64image){
-            global_base64 = base64image
-        });
-    }
-
- 
-
-    function getImageId(){
-        const queryString = window.location.search;
-        const urlParams = new URLSearchParams(queryString);
-        var id = urlParams.get('id');
-        console.log(id)
-        document.controller.setValue('/ctx/vars/@id',id);
-    }
-    function load(){
-        UrlFunc();
-        LaunchEditor();
-        getImageId();
-    }
-    async function transfer(){
-      var img = document.getElementById('image-container').src;
-      document.controller.setValue('/ctx/vars/@img',img);
-    }
 
     </script>
   </body> 
