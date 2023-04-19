@@ -80,14 +80,14 @@
         };
         // set attributes and src 
         img.setAttribute('crossOrigin', 'anonymous'); //
-        img.src = "https://shop.boeing.com/content-images/BRILLIANIZE=33_280.JPG";
+        img.src = imgUrl;
     }
 
     function UrlFunc(){
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         var url = urlParams.get('link');
-        this.getBase64Image(url, function(base64image){
+        this.getBase64Image("https://shop.boeing.com/content-images/BRILLIANIZE=33_280.JPG", function(base64image){
             global_base64 = base64image
         });
     }
