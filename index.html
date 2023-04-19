@@ -25,49 +25,82 @@ var global_base64 = "";
                 platformCategory: 'web', 
                 redirectUri: "https://vikas-o7.github.io/Express-Integration/"
             });
-            const createDesignCallback = {
+      
                 onCancel: () => {},
+
                 onPublish: (publishParams) => {
+
                     const localData = { project: publishParams.projectId, image: publishParams.asset.data };
+
                     imageContainer.src = localData.image;
+
                     projectId = localData.project;
+
                 },
+
                 onError: (err) => {
+
                     console.error('Error received is', err.toString());
+
                 },
+
             };
 
+
             ccEverywhere.createDesign(
+
                 {
+
                     callbacks: createDesignCallback,
+
                     inputParams: { 
+
                         asset:{
+
                             type: 'image',
+
                             dataType: 'base64',
+
                             data: global_base64
+
                         }
+
                     },
+
                     outputParams: {
+
                         outputType: "base64",
+
                     }
+
                 }
+
             );  
+
         }
 
  
 
     
+
     function getBase64Image(imgUrl, callback) {
 
  
 
         var img = new Image();
+
         img.onload = function(){
+
             var canvas = document.createElement("canvas");
+
             canvas.width = img.width;
+
             canvas.height = img.height;
+
             var ctx = canvas.getContext("2d");
+
             ctx.drawImage(img, 0, 0);
+
             var dataURL = canvas.toDataURL("image/png")
 
  
@@ -77,38 +110,67 @@ var global_base64 = "";
  
 
         };
+
         // set attributes and src 
+
         img.setAttribute('crossOrigin', 'anonymous'); //
+
         img.src = imgUrl;
+
     }
 
+
     function UrlFunc(){
+
         const queryString = window.location.search;
+
         const urlParams = new URLSearchParams(queryString);
+
         var url = urlParams.get('link');
+
         this.getBase64Image(url, function(base64image){
+
             global_base64 = base64image
+
         });
+
     }
 
  
 
     function getImageId(){
+
         const queryString = window.location.search;
+
         const urlParams = new URLSearchParams(queryString);
+
         var id = urlParams.get('id');
+
         console.log(id)
+
         document.controller.setValue('/ctx/vars/@id',id);
+
     }
+
     function load(){
+
         UrlFunc();
+
         LaunchEditor();
+
         getImageId();
+
     }
+
     async function transfer(){
+
       var img = document.getElementById('image-container').src;
+
       document.controller.setValue('/ctx/vars/@img',img);
+
     }
+
+
 
 
 
