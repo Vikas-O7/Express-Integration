@@ -83,7 +83,7 @@
     }
 
    function UrlFunc(){
-    var imageUrl = "https://media.istockphoto.com/id/1402586380/vector/click-here-icon-in-flat-style-pointer-clicking-vector-illustration-on-isolated-background.jpg?s=1024x1024&w=is&k=20&c=jRtoVU409FI2CwY_9xwBvp1JuPtG0nCwswdDkncmuOI="; // replace with your image URL
+    var imageUrl = "https://media.istockphoto.com/id/1402586380/vector/click-here-icon-in-flat-style-pointer-clicking-vector-illustration-on-isolated-background.jpg?s=1024x1024&w=is&k=20&c=jRtoVU409FI2CwY_9xwBvp1JuPtG0nCwswdDkncmuOI="; 
     this.getBase64Image(imageUrl, function(base64image){
         global_base64 = base64image
     });
@@ -101,7 +101,6 @@
     function load(){
         UrlFunc();
         LaunchEditor();
-        getImageId();
     }
     async function transfer(){
       var img = document.getElementById('image-container').src;
