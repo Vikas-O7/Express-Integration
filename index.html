@@ -9,13 +9,10 @@
     <script src="https://sdk.cc-embed.adobe.com/v2/CCEverywhere.js"></script>
     <script type="text/javascript">
 
-var global_base64 = "";
-
-
-
-var projectId = null;
-
-    var imageContainer = document.getElementById("image-container");
+	var global_base64 = "";
+	var projectId = null;
+	var imageContainer = document.getElementById("image-container");
+	
     async function LaunchEditor(){
         const ccEverywhere = await window.CCEverywhere.initialize({
             clientId: "217521108d6645a1b27e01411fb46e85",
@@ -24,6 +21,7 @@ var projectId = null;
             platformCategory: 'web', 
             redirectUri: ""
         });
+		
         const createDesignCallback = {
             onCancel: () => {},
             onPublish: (publishParams) => {
@@ -38,14 +36,7 @@ var projectId = null;
 
         ccEverywhere.createDesign(
             {
-                callbacks: createDesignCallback,
-                inputParams: { 
-                    asset:{
-                        type: 'image',
-                        dataType: 'base64',
-                        data: global_base64
-                    }
-                },
+                callbacks: createDesignCallback,        
                 outputParams: {
                     outputType: "base64",
                 }
@@ -81,33 +72,18 @@ function getBase64Image(imgUrl, callback) {
     img.src = imgUrl;
 }
 
-function UrlFunc(){
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    var url = urlParams.get('link');
-    this.getBase64Image(url, function(base64image){
-        global_base64 = base64image
-    });
-}
 
 
 
-function getImageId(){
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    var id = urlParams.get('id');
-    console.log(id)
-    document.controller.setValue('/ctx/vars/@id',id);
-}
 function load(){
-    UrlFunc();
     LaunchEditor();
-    getImageId();
 }
+
 async function transfer(){
   var img = document.getElementById('image-container').src;
   document.controller.setValue('/ctx/vars/@img',img);
 }
+
 </script>
 </body> 
 </html>
