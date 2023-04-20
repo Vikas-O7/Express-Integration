@@ -1,104 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-  <title>Quick actions</title>
-  </head>
-    
+    <title>Create Project Sample</title>
+  </head>  
   <body>
-    <h1> Image quick action  </h1>
-    <input type="file" id="fileInput" />
+    <button id="create-project-button" onclick="load()">Create project</button>
     <img id="image-container" height="420" width="420" />
-    <button id="image-crop"> Crop image </button>
 
     <script src="https://sdk.cc-embed.adobe.com/v2/CCEverywhere.js"></script>
     <script type="text/javascript" >
     
-    (async() => {
-        const ccEverywhere = await window.CCEverywhere.initialize({
-            clientId: "217521108d6645a1b27e01411fb46e85",
-            appName: "Adobe Target and Express Integration",
-            appVersion: { major: 1, minor: 0 },
-            platformCategory: 'web',
-            redirectUri: "https://smpxpress//.com/"
-            }
-        );
-        /* file: user uploaded file
-        imageUrl: base64 representation we pass into QA function */
-        var file, encodedImage;
-        /*  appImage is the image container displayed in sample */
-        var appImage = document.getElementById('image-container');
+    var global_base64 = "";
 
-        /* This event listener checks to see if the user uploaded a new file */
-        document.getElementById('fileInput')
-        .addEventListener('change', (e) => {
-            const reader = new FileReader();
-            file = e.target.files[0];
-            /* reads file into base 64 data type */
-            reader.readAsDataURL(file);
-            reader.onload = () => {
-                encodedImage = reader.result;
-            }
-            reader.onerror = (error) => {
-                console.log('error', error);
-            };
-        })
+ 
 
-        const exportOptions = [
-            /* Customize export button */
-            {
-                target: 'Editor',
-                variant: 'cta',
-                optionType: 'button',
-                buttonType: 'native'
-            },
-            /* Download export button */
-            {
-                target: 'Download',
-                variant: 'primary',
-                optionType: 'button',
-                buttonType: 'native'
-            },
-            /* Custom implementation in onPublish callback */
-            {
-                target: 'Host',
-                id: 'save-to-host-app',
-                label: 'Embed in app',
-                variant: 'cta',
-                optionType: 'button',
-                buttonType: 'custom'
-            }
-        ];
+    var projectId = null;
 
-        const callbacks = {
-            onCancel: () => {},
-            onPublish: (publishParams) => {
-                if(publishParams.exportButtonId=="save-to-host-app"){
-                    appImage.src = publishParams.asset.data;
-                    appImage.style.visibility="visible";
-                }
-            },
-            onError: (err) => {
-                console.error('Error received is', err.toString())
-            }
-        }
+      var imageContainer = document.getElementById("image-container");
+        async function LaunchEditor(){
+            const ccEverywhere = await window.CCEverywhere.initialize({
+                clientId: "951ad175bb2a4eee85863c80996801b3",
+                appName: "ACC Adobe Express Editor",
+                appVersion: { major: 1, minor: 0 },
+                platformCategory: 'web',
+                redirectUri: ""
+            });
+            const createDesignCallback = {
+                onCancel: () => {},
+                onPublish: (publishParams) => {
+                    const localData = { project: publishParams.projectId, image: publishParams.asset.data };
+                    imageContainer.src = localData.image;
+                    projectId = localData.project;
+                },
+                onError: (err) => {
+                    console.error('Error received is', err.toString());
+                },
+            };
 
-        document.getElementById('image-crop')
-        .addEventListener('click', () => {
-            ccEverywhere.openQuickAction({
-                id: 'image-crop', 
-                inputParams: {
-                    asset: {
-                        data: encodedImage, 
-                        dataType: 'base64', 
-                        type: 'image'
-                    }, 
-                    exportOptions: exportOptions
-                },
-                callbacks: callbacks,
-                modalParams: {},
-            })
-        })
-    })();
+            ccEverywhere.createDesign(
+                {
+                    callbacks: createDesignCallback,
+                    inputParams: { 
+                        asset:{
+                            type: 'image',
+                            dataType: 'base64',
+                            data: global_base64
+                        }
+                    },
+                    outputParams: {
+                        outputType: "base64",
+                    }
+                }
+            );  
+        }
+
+ 
+
+    
+    function getBase64Image(imgUrl, callback) {
+
+ 
+
+        var img = new Image();
+        img.onload = function(){
+            var canvas = document.createElement("canvas");
+            canvas.width = img.width;
+            canvas.height = img.height;
+            var ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0);
+            var dataURL = canvas.toDataURL("image/png")
+
+ 
+
+            callback(dataURL); // the base64 string
+
+ 
+
+        };
+        // set attributes and src 
+        img.setAttribute('crossOrigin', 'anonymous'); //
+        img.src = imgUrl;
+    }
+
+    function UrlFunc(){
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        var url = urlParams.get('link');
+        this.getBase64Image(url, function(base64image){
+            global_base64 = base64image
+        });
+    }
+
+ 
+
+    function getImageId(){
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        var id = urlParams.get('id');
+        console.log(id)
+        document.controller.setValue('/ctx/vars/@id',id);
+    }
+    function load(){
+        UrlFunc();
+        LaunchEditor();
+        getImageId();
+    }
+    async function transfer(){
+      var img = document.getElementById('image-container').src;
+      document.controller.setValue('/ctx/vars/@img',img);
+    }
+
     </script>
   </body> 
 </html>
