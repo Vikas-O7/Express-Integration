@@ -72,8 +72,8 @@
 
 
    	function UrlFunc(){
-		var urlParams = new URLSearchParams(window.location.search);
-		var imageUrl = urlParams.get('imgsrc');
+        const imgsrcValue = url.split('imgsrc=')[1];
+		var imageUrl = imgsrcValue;
 		this.convertImageToBase64(imageUrl, function(base64image){
 			global_base64 = base64image
 		});
