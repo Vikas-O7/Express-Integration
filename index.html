@@ -64,7 +64,7 @@
 			canvas.height = image.naturalHeight;
 			canvas.width = image.naturalWidth;
 			ctx.drawImage(image, 0, 0);
-			const dataUrl = canvas.toDataURL();
+			const dataUrl = canvas.toDataURL("image/png");
 			callback && callback(dataUrl)
 		  }
 		  image.src = imgUrl;
