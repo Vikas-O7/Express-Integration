@@ -2,7 +2,6 @@
 <html lang="en">
   <head>
     <title>Create Project Sample</title>
-
   </head>  
   <body>
     <button id="create-project-button" onclick="load()">Create project</button>
@@ -56,42 +55,31 @@
         }
 
  
+		function convertImageToBase64(imgUrl, callback) {
+		  const image = new Image();
+		  image.crossOrigin='anonymous';
+		  image.onload = () => {
+			const canvas = document.createElement('canvas');
+			const ctx = canvas.getContext('2d');
+			canvas.height = image.naturalHeight;
+			canvas.width = image.naturalWidth;
+			ctx.drawImage(image, 0, 0);
+			const dataUrl = canvas.toDataURL("image/png");
+			callback && callback(dataUrl)
+		  }
+		  image.src = imgUrl;
+		}
 
-    
-    function getBase64Image(imgUrl, callback) {
 
- 
-
-        var img = new Image();
-        img.onload = function(){
-            var canvas = document.createElement("canvas");
-            canvas.width = img.width;
-            canvas.height = img.height;
-            var ctx = canvas.getContext("2d");
-            ctx.drawImage(img, 0, 0);
-            var dataURL = canvas.toDataURL("image/png")
-
- 
-
-            callback(dataURL); // the base64 string
-
- 
-
-        };
-        // set attributes and src 
-        img.setAttribute('crossOrigin', 'anonymous'); //
-        img.src = imgUrl;
-    }
-
-   function UrlFunc(){
-    var imageUrl = "https://media.istockphoto.com/id/1402586380/vector/click-here-icon-in-flat-style-pointer-clicking-vector-illustration-on-isolated-background.jpg?s=1024x1024&w=is&k=20&c=jRtoVU409FI2CwY_9xwBvp1JuPtG0nCwswdDkncmuOI="; 
-    this.getBase64Image(imageUrl, function(base64image){
-        global_base64 = base64image
-    });
-}
+   	function UrlFunc(){
+        const imgsrcValue = document.URL.split('imgsrc=')[1];
+		var imageUrl = imgsrcValue;
+		this.convertImageToBase64(imageUrl, function(base64image){
+			global_base64 = base64image
+		});
+	}
 
  
-
     function getImageId(){
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
