@@ -11,90 +11,89 @@
     <script type="text/javascript" >
     
     var global_base64 = "";
+    var projectId = null;
+    var imageContainer = document.getElementById("image-container");
 
- 
+    function convertImageToBase64(imgUrl, callback) {
+        const image = new Image();
+        image.crossOrigin='anonymous';
+        image.onload = () => {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.height = image.naturalHeight;
+            canvas.width = image.naturalWidth;
+            ctx.drawImage(image, 0, 0);
+            const dataUrl = canvas.toDataURL("image/png");
+            callback && callback(dataUrl)
+        }
+        image.src = imgUrl;
+    }
 
-    var projectId = null;
+    function UrlFunc(){
+        return new Promise((resolve, reject) => {
+            const imgsrcValue = document.URL.split('imgsrc=')[1];
+            var imageUrl = imgsrcValue;
+            convertImageToBase64(imageUrl, function(base64image){
+                global_base64 = base64image
+                resolve();
+            });
+        });
+    }
 
-      var imageContainer = document.getElementById("image-container");
-        async function LaunchEditor(){
-            const ccEverywhere = await window.CCEverywhere.initialize({
-                clientId: "951ad175bb2a4eee85863c80996801b3",
-                appName: "ACC Adobe Express Editor",
-                appVersion: { major: 1, minor: 0 },
-                platformCategory: 'web',
-                redirectUri: ""
-            });
-            const createDesignCallback = {
-                onCancel: () => {},
-                onPublish: (publishParams) => {
-                    const localData = { project: publishParams.projectId, image: publishParams.asset.data };
-                    imageContainer.src = localData.image;
-                    projectId = localData.project;
-                },
-                onError: (err) => {
-                    console.error('Error received is', err.toString());
-                },
-            };
+    async function LaunchEditor(){
+        await UrlFunc();
+        const ccEverywhere = await window.CCEverywhere.initialize({
+            clientId: "951ad175bb2a4eee85863c80996801b3",
+            appName: "ACC Adobe Express Editor",
+            appVersion: { major: 1, minor: 0 },
+            platformCategory: 'web',
+            redirectUri: ""
+        });
+        const createDesignCallback = {
+            onCancel: () => {},
+            onPublish: (publishParams) => {
+                const localData = { project: publishParams.projectId, image: publishParams.asset.data };
+                imageContainer.src = localData.image;
+                projectId = localData.project;
+            },
+            onError: (err) => {
+                console.error('Error received is', err.toString());
+            },
+        };
 
-            ccEverywhere.createDesign(
-                {
-                    callbacks: createDesignCallback,
-                    inputParams: { 
-                        asset:{
-                            type: 'image',
-                            dataType: 'base64',
-                            data: global_base64
-                        }  
-                    },
-                    outputParams: {
-                        outputType: "base64",
-                    }
-                }
-            );  
-        }
+        ccEverywhere.createDesign(
+            {
+                callbacks: createDesignCallback,
+                inputParams: { 
+                    asset:{
+                        type: 'image',
+                        dataType: 'base64',
+                        data: global_base64
+                    }  
+                },
+                outputParams: {
+                    outputType: "base64",
+                }
+            }
+        );  
+    }
 
- 
-		function convertImageToBase64(imgUrl, callback) {
-		  const image = new Image();
-		  image.crossOrigin='anonymous';
-		  image.onload = () => {
-			const canvas = document.createElement('canvas');
-			const ctx = canvas.getContext('2d');
-			canvas.height = image.naturalHeight;
-			canvas.width = image.naturalWidth;
-			ctx.drawImage(image, 0, 0);
-			const dataUrl = canvas.toDataURL("image/png");
-			callback && callback(dataUrl)
-		  }
-		  image.src = imgUrl;
-		}
+    function getImageId(){
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        var id = urlParams.get('id');
+        console.log(id)
+        document.controller.setValue('/ctx/vars/@id',id);
+    }
 
+    function load(){
+        LaunchEditor();
+    }
 
-   	function UrlFunc(){
-        const imgsrcValue = document.URL.split('imgsrc=')[1];
-		var imageUrl = imgsrcValue;
-		this.convertImageToBase64(imageUrl, function(base64image){
-			global_base64 = base64image
-		});
-	}
-
- 
-    function getImageId(){
-        const queryString = window.location.search;
-        const urlParams = new URLSearchParams(queryString);
-        var id = urlParams.get('id');
-        console.log(id)
-        document.controller.setValue('/ctx/vars/@id',id);
-    }
-    function load(){
-        UrlFunc();
-        LaunchEditor();
-    }
-    async function transfer(){
-      var img = document.getElementById('image-container').src;
-      document.controller.setValue('/ctx/vars/@img',img);
-    }
+    async function transfer(){
+        var img = document.getElementById('image-container').src;
+        document.controller.setValue('/ctx/vars/@img',img);
+    }
 
     </script>
   </body> 
