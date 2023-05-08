@@ -101,14 +101,14 @@ git
         function load() {
 
             var imgSrcFound = setInterval(() => {
-                let offerName = getofferName("Image Offer")
+                let offerName = getofferName("ImageOffer")
                 let imgElement = document.createElement('img')
                 
                 let imgSrcCheck = document.getElementById("image-container").src.includes("data")
 
                 if (imgSrcCheck) {
                     imgElement.src = document.getElementById("image-container").src
-                    const url = `http://localhost:3000/?name=${offerName}&content=${imgElement}`;
+                    const url = `http://localhost:3000/?name=${encodeURIComponent(offerName)}&content=${encodeURIComponent(imgElement)}`;
                     console.log("url",url);
                     console.log("imgElement",imgElement);
                     console.log("offerName",offerName);
