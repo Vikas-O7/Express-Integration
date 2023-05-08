@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+git
 <head>
     <title>Create Project Sample</title>
 </head>
@@ -103,12 +103,13 @@
             var imgSrcFound = setInterval(() => {
                 const offerName = getofferName("Image Offer")
                 let imgElement = document.createElement('img')
-
+                
                 let imgSrcCheck = document.getElementById("image-container").src.includes("data")
 
                 if (imgSrcCheck) {
                     imgElement.src = document.getElementById("image-container").src
                     const url = `http://localhost:3000/?name=${offerName}&content=${imgElement}`;
+                    console.log("url",url);
                     fetch(url)
                         .then(response => response.text())
                         .then(result => {
