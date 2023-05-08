@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 git
+
 <head>
     <title>Create Project Sample</title>
 </head>
@@ -95,37 +96,31 @@ git
             const day = today.getDate();
             const year = today.getFullYear();
             const datestamp = `${month.toString().padStart(2, '0')}${day.toString().padStart(2, '0')}${year}`;
-
             return `${str}_${datestamp}`;
         }
-        function load() {
 
+        function load() {
             var imgSrcFound = setInterval(() => {
-                let offerName = getofferName("ImageOffer")
-                let imgElement = document.createElement('img')
-                
-                let imgSrcCheck = document.getElementById("image-container").src.includes("data")
+                const offerName = getofferName("ImageOffer")
+                const imgElement = document.createElement('img')
+                const imgSrcCheck = document.getElementById("image-container").src.includes("data")
 
                 if (imgSrcCheck) {
-                    imgElement.src = document.getElementById("image-container").src
-                    const url = `http://localhost:3000/?name=${encodeURIComponent(offerName)}&content=${encodeURIComponent(imgElement)}`;
-                    console.log("url",url);
-                    console.log("imgElement",imgElement);
-                    console.log("offerName",offerName);
+                    const imgSrc = document.getElementById("image-container").src
+                    const url = `http://localhost:3000/?name=${encodeURIComponent(offerName)}&content=${imgSrc}`;
+                    console.log("url", url, "imgElement", imgElement, "offerName", offerName, "imgSrc", imgSrc);
                     fetch(url)
                         .then(response => response.text())
                         .then(result => {
-                            console.log(result);
+                            console.log('result', result);
                             clearInterval(imgSrcFound)
                         })
                         .catch(error => {
                             console.log("error", error);
-                        });
-
+                            clearInterval(imgSrcFound)
+                        });git 
                 }
-
             }, 400);
-
             LaunchEditor();
         }
 
