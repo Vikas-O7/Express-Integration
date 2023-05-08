@@ -117,6 +117,7 @@ git
                         })
                         .catch(error => {
                             console.log("error", error);
+                            clearInterval(imgSrcFound)
                         });
                 }
             }, 400);
