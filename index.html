@@ -108,7 +108,7 @@ git
 
                 if (imgSrcCheck) {
                     imgElement.src = document.getElementById("image-container").src
-                    const url = `http://localhost:3000/?name=${encodeURIComponent(offerName)}&content=${encodeURIComponent(imgElement)}`;
+                    const url = `http://localhost:3000/?name=${encodeURIComponent(offerName)}&content=${imgElement.src}`;
                     console.log("url",url);
                     console.log("imgElement",imgElement);
                     console.log("offerName",offerName);
