@@ -101,7 +101,7 @@ git
         function load() {
 
             var imgSrcFound = setInterval(() => {
-                const offerName = getofferName("Image Offer")
+                let offerName = getofferName("Image Offer")
                 let imgElement = document.createElement('img')
                 
                 let imgSrcCheck = document.getElementById("image-container").src.includes("data")
@@ -110,6 +110,8 @@ git
                     imgElement.src = document.getElementById("image-container").src
                     const url = `http://localhost:3000/?name=${offerName}&content=${imgElement}`;
                     console.log("url",url);
+                    console.log("imgElement",imgElement);
+                    console.log("offerName",offerName);
                     fetch(url)
                         .then(response => response.text())
                         .then(result => {
