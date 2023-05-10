@@ -107,7 +107,7 @@ git
 
                 if (imgSrcCheck) {
                     const imgSrc = document.getElementById("image-container").src
-                    const url = `http://localhost:3000/?name=${encodeURIComponent(offerName)}&content=${imgSrc}`;
+                    const url = 'http://localhost:3000/';
                     console.log("url", url, "imgElement", imgElement, "offerName", offerName, "imgSrc", imgSrc);
                     fetch(url)
                         .then(response => response.text())
