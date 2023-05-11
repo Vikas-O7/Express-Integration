@@ -2,13 +2,92 @@
 <html lang="en">
 
 <head>
-    <title>Create Project Sample</title>
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; frame-ancestors *;">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        body {
+            background: #1D1F20;
+            padding: 30px 30px;
+        }
+
+        #box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-family: 'Raleway';
+            font-size: 2.5rem;
+        }
+
+        .gradient-border {
+            --borderWidth: 5px;
+            background: white;
+            position: relative;
+            border-radius: var(--borderWidth);
+        }
+
+        .gradient-border::after {
+            content: '';
+            position: absolute;
+            top: calc(-1 * var(--borderWidth));
+            left: calc(-1 * var(--borderWidth));
+            height: calc(100% + var(--borderWidth) * 2);
+            width: calc(100% + var(--borderWidth) * 2);
+            background: linear-gradient(60deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
+            border-radius: calc(2 * var(--borderWidth));
+            z-index: -1;
+            -webkit-animation: animatedgradient 3s ease alternate infinite;
+            animation: animatedgradient 3s ease alternate infinite;
+            background-size: 300% 300%;
+        }
+
+        @keyframes animatedgradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        #create-project-button {
+            height: 2.375rem;
+            min-width: 10rem;
+            margin-left: 1rem;
+            font-size: .9375rem;
+            font-weight: 700;
+            font-style: normal;
+            font-family: adobe-clean, Helvetica, Arial, sans-serif;
+            cursor: pointer;
+            display: flex;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+            background-color: rgb(50, 110, 200);
+            color: rgb(255, 255, 255);
+            text-shadow: rgb(30, 95, 190) 0px -0.0625rem 0px;
+            border-radius: 5px;
+            border-width: 0px;
+            border-style: initial;
+            border-image: initial;
+            border-color: rgb(30, 95, 190);
+        }
+    </style>
 </head>
 
 <body>
-    <button id="create-project-button" onclick="load()">Create Project</button>
-    <img id="image-container" height="360" width="1034" />
+    <div style="display: flex; align-items: end; justify-content: space-between">
+        <div id="box" class="gradient-border"> <img id="image-container" height="360" width="1034"
+                style="border-radius: 50px;"> </div>
+        <div style="display: flex"> <button id="create-project-button" onclick="load()"> Create Project </button> </div>
+    </div>
 
     <script src="https://sdk.cc-embed.adobe.com/v2/CCEverywhere.js"></script>
     <script type="text/javascript">
@@ -104,41 +183,41 @@
                 const offerName = getofferName("ImageOffer")
                 const imgElement = document.createElement('img')
                 const imgSrcCheck = document.getElementById("image-container").src.includes("data")
-                
+
                 var myHeaders = new Headers();
                 myHeaders.append("authorization", "Bearer eyJhbGciOiJSUzI1NiIsIng1dSI6Imltc19uYTEta2V5LWF0LTEuY2VyIiwia2lkIjoiaW1zX25hMS1rZXktYXQtMSIsIml0dCI6ImF0In0.eyJpZCI6IjE2ODM3OTY4NjAwODZfNmYzZDU5NjgtMmRlZC00OTAwLTkwZTgtYjYxMzk3NDg1ZDhkX3VlMSIsIm9yZyI6Ijk3NUQwMTcyNUQ1QTZCMUMwQTQ5NUVGNUBBZG9iZU9yZyIsInR5cGUiOiJhY2Nlc3NfdG9rZW4iLCJjbGllbnRfaWQiOiI0OThjMzgyMDJmMGQ0NzVlYjkwZTM1MjdjZDcwYzY5NiIsInVzZXJfaWQiOiJERTUwMjhCNzY0NTkyRTREMEE0OTVDRDBAdGVjaGFjY3QuYWRvYmUuY29tIiwiYXMiOiJpbXMtbmExIiwiYWFfaWQiOiJERTUwMjhCNzY0NTkyRTREMEE0OTVDRDBAdGVjaGFjY3QuYWRvYmUuY29tIiwiY3RwIjozLCJtb2kiOiI3NzExYTRjZSIsImV4cGlyZXNfaW4iOiI4NjQwMDAwMCIsInNjb3BlIjoib3BlbmlkLEFkb2JlSUQsdGFyZ2V0X3NkayxhZGRpdGlvbmFsX2luZm8ucm9sZXMscmVhZF9vcmdhbml6YXRpb25zLGFkZGl0aW9uYWxfaW5mby5wcm9qZWN0ZWRQcm9kdWN0Q29udGV4dCIsImNyZWF0ZWRfYXQiOiIxNjgzNzk2ODYwMDg2In0.VvNAiganPG5l-UGJTeSKPkZIQKEJNY6g8rWNtvwptfc5DQrU8LHVwU14Z4F7NVFwGuQuX58Vo6T-Su1wm1bRwXvvop_kzBLl9JrOpWm2mWso3GulaAwmNXsyBhjCZZ4P3kbC8bUynorRwOYPCHV4cyE_mRS2VqXEFjuAPVh43HCLVygo9l5NepYfVofwctH4Lc8zqGzgwcAzo8vtUEmNDlUBEAdXHJPXnLcAwivz6_amFmYzqIaHBYprkfy6vpHlWHLUVJ15b2SnOsRiSiwV3O7aRnh6eXOg3cTmoxNzxDPC_arM6vAa92jBiYSH4bNC9xjenR3gqc-xXn45nPsZMA");
                 myHeaders.append("cache-control", "no-cache");
                 myHeaders.append("content-type", "application/vnd.adobe.target.v2+json");
                 myHeaders.append("x-api-key", "498c38202f0d475eb90e3527cd70c696");
 
-                 if (imgSrcCheck) {
-					const imgSrc = document.getElementById("image-container").src
-					const url = 'https://cors-anywhere.herokuapp.com/https://mc.adobe.io/agisinternal/target/offers/content';
-					const offerName = getofferName("ImageOffer")
-					const contentValue = `<img src="${imgSrc}"/>`;
-					const requestOptions = {
-						method: 'POST',
-						headers: myHeaders,
-						body: JSON.stringify({
-							name: offerName,
-							content: contentValue,
-						}),
-						redirect: 'follow'
-					};
+                if (imgSrcCheck) {
+                    const imgSrc = document.getElementById("image-container").src
+                    const url = 'https://cors-anywhere.herokuapp.com/https://mc.adobe.io/agisinternal/target/offers/content';
+                    const offerName = getofferName("ImageOffer")
+                    const contentValue = `<img src="${imgSrc}"/>`;
+                    const requestOptions = {
+                        method: 'POST',
+                        headers: myHeaders,
+                        body: JSON.stringify({
+                            name: offerName,
+                            content: contentValue,
+                        }),
+                        redirect: 'follow'
+                    };
 
-					fetch(url, requestOptions)
-						.then(response => response.text())
-						.then(result => {
-							console.log('result', result);
-							clearInterval(imgSrcFound)
-						})
-						.catch(error => {
-							console.log("error", error);
-							clearInterval(imgSrcFound)
-						});
-				}
+                    fetch(url, requestOptions)
+                        .then(response => response.text())
+                        .then(result => {
+                            console.log('result', result);
+                            clearInterval(imgSrcFound)
+                        })
+                        .catch(error => {
+                            console.log("error", error);
+                            clearInterval(imgSrcFound)
+                        });
+                }
             }, 1000);
-			
+
             LaunchEditor();
         }
 
