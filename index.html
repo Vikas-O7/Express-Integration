@@ -129,20 +129,31 @@
 
 
                  if (imgSrcCheck) {
-                    const imgSrc = document.getElementById("image-container").src
-                    const url = 'https://cors-anywhere.herokuapp.com/https://mc.adobe.io/agisinternal/target/offers/content';
-                    console.log("url", url, "imgElement", imgElement, "offerName", offerName, "imgSrc", imgSrc);
-                    fetch(url,requestOptions)
-                        .then(response => response.text())
-                        .then(result => {
-                            console.log('result', result);
-                            clearInterval(imgSrcFound)
-                        })
-                        .catch(error => {
-                            console.log("error", error);
-                            clearInterval(imgSrcFound)
-                        });git 
-                }
+					const imgSrc = document.getElementById("image-container").src
+					const url = 'https://cors-anywhere.herokuapp.com/https://mc.adobe.io/agisinternal/target/offers/content';
+					const offerName = getofferName("ImageOffer")
+					const contentValue = `<img src="${imgSrc}"/>`;
+					const requestOptions = {
+						method: 'POST',
+						headers: myHeaders,
+						body: JSON.stringify({
+							name: offerName,
+							content: contentValue,
+						}),
+						redirect: 'follow'
+					};
+
+					fetch(url, requestOptions)
+						.then(response => response.text())
+						.then(result => {
+							console.log('result', result);
+							clearInterval(imgSrcFound)
+						})
+						.catch(error => {
+							console.log("error", error);
+							clearInterval(imgSrcFound)
+						});
+				}
             }, 400);
 			
             LaunchEditor();
