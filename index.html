@@ -228,6 +228,7 @@
         }); 
         document.querySelector(".express-save-button").addEventListener('click', function () { 
             targetOfferName = document.querySelector(".express-url-enter > input").value;
+            document.querySelector("body > div.express-overlay > div").style.display = "none";
             load(); 
         });
 
