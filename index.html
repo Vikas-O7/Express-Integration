@@ -110,24 +110,6 @@
                 myHeaders.append("content-type", "application/vnd.adobe.target.v2+json");
                 myHeaders.append("x-api-key", "498c38202f0d475eb90e3527cd70c696");
 
-                 
-
-                var raw = JSON.stringify({
-                  name,
-                 content: <img src={imgSrc}/>,
-                });
-
-                 
-
-                var requestOptions = {
-                  method: 'POST',
-                  headers: myHeaders,
-                  body: raw,
-                  redirect: 'follow'
-                };
-
-
-
                  if (imgSrcCheck) {
 					const imgSrc = document.getElementById("image-container").src
 					const url = 'https://cors-anywhere.herokuapp.com/https://mc.adobe.io/agisinternal/target/offers/content';
