@@ -79,6 +79,119 @@
             border-image: initial;
             border-color: rgb(30, 95, 190);
         }
+
+        .express-overlay {
+            display: none;
+            position: fixed;
+            z-index: 10;
+            padding-top: 100px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+        }
+
+        .express-overlay-modal {
+            background-color: #fefefe;
+            margin: 0 auto;
+            padding: 15px;
+            max-width: 43rem;
+            /* min-height: 250px; */
+            border-radius: 5px;
+        }
+
+        .express-header-div {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .express-header-text {
+            color: #4b4b4b;
+            font-size: 1.25rem;
+            line-height: 1.5rem;
+            font-weight: 300;
+        }
+
+        .express-header-buttons {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .express-header-buttons>a {
+            height: 2.375rem;
+            min-width: 5rem;
+            margin-left: 1rem;
+            font-size: .9375rem;
+            font-weight: 700;
+            font-style: normal;
+            font-family: adobe-clean, Helvetica, Arial, sans-serif;
+            cursor: pointer;
+            display: flex;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .express-cancel-button {
+            background-color: transparent;
+            border: none;
+            color: rgba(0, 0, 0, .6);
+            transition: color .15s ease-out;
+        }
+
+        .express-save-button {
+            border-radius: 5px;
+            border: 0;
+            border-color: #1e5fbe;
+            background-color: #326ec8;
+            color: #fff;
+            text-shadow: 0 -0.0625rem 0 #1e5fbe;
+        }
+
+        .express-overlay-modal>hr {
+            border: 1px solid rgba(0, 0, 0, .05);
+            border-radius: 5px;
+        }
+
+        .express-url-content {
+            padding: 2.25rem 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .express-url-header {
+            font-family: adobe-clean, Helvetica, Arial, sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            font-size: .8125rem;
+            line-height: 1.0625rem;
+            color: #323232;
+        }
+
+        .express-url-enter>input {
+            width: 43rem;
+            margin-top: .5rem;
+            -webkit-appearance: none;
+            -moz-appearance: textfield;
+            box-sizing: border-box;
+            border: .0625rem solid #d0d0d0;
+            border-radius: 0;
+            padding: .625rem;
+            min-width: 6.875rem;
+            height: 2.375rem;
+            font-weight: 400;
+            font-style: normal;
+            vertical-align: top;
+            font-size: .8125rem;
+            line-height: 1.0625rem;
+            background-color: #fff;
+            color: #323232;
+            font-family: adobe-clean, Helvetica, Arial, sans-serif;
+        }
     </style>
 </head>
 
@@ -86,11 +199,38 @@
     <div style="display: flex; align-items: end; justify-content: space-between">
         <div id="box" class="gradient-border"> <img id="image-container" height="360" width="1034"
                 style="border-radius: 50px;"> </div>
-        <div style="display: flex"> <button id="create-project-button" onclick="load()"> Create Project </button> </div>
+        <div style="display: flex"> <button id="create-project-button"> Create Project </button> </div>
+    </div>
+    <div class="express-overlay">
+        <div class="express-overlay-modal">
+            <div class="express-header-div">
+                <div class="express-header-text">Enter Offer Name</div>
+                <div class="express-header-buttons"><a class="express-cancel-button">Cancel</a><a
+                        class="express-save-button ">Save</a></div>
+            </div>
+            <hr>
+            <div class="express-url-content">
+                <div class="express-url-header">Enter the Offer Name</div>
+                <div class="express-url-enter"><input type="text" placeholder="Type Here"></div>
+            </div>
+        </div>
     </div>
 
     <script src="https://sdk.cc-embed.adobe.com/v2/CCEverywhere.js"></script>
     <script type="text/javascript">
+
+        var targetOfferName; 
+        document.querySelector("#create-project-button").addEventListener('click', function () { 
+            document.querySelector(".express-overlay").style.display = "block"; 
+        });
+        document.querySelector(".express-cancel-button").addEventListener('click', function () { 
+            document.querySelector(".express-overlay").style.display = "none"; 
+        }); 
+        document.querySelector(".express-save-button").addEventListener('click', function () { 
+            targetOfferName = document.querySelector(".express-url-enter > input").value;
+            load(); 
+        });
+
 
         var global_base64 = "";
         var projectId = null;
@@ -175,7 +315,7 @@
             const day = today.getDate();
             const year = today.getFullYear();
             const datestamp = `${month.toString().padStart(2, '0')}${day.toString().padStart(2, '0')}${year}`;
-            return `${str}_${datestamp}`;
+            return `${targetOfferName}_${str}_${datestamp}`;
         }
 
         function load() {
