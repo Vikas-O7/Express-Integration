@@ -222,6 +222,7 @@
         var targetOfferName; 
         document.querySelector("#create-project-button").addEventListener('click', function () { 
             document.querySelector(".express-overlay").style.display = "block"; 
+       
         });
         document.querySelector(".express-cancel-button").addEventListener('click', function () { 
             document.querySelector(".express-overlay").style.display = "none"; 
@@ -229,6 +230,7 @@
         document.querySelector(".express-save-button").addEventListener('click', function () { 
             targetOfferName = document.querySelector(".express-url-enter > input").value;
             document.querySelector("body > div.express-overlay > div").style.display = "none";
+            document.querySelector("body > div.express-overlay").style.display = "none";
             load(); 
         });
 
