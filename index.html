@@ -335,7 +335,6 @@
 
                 if (imgSrcCheck) {
                     const imgSrc = document.getElementById("image-container").src;
-                    clearInterval(imgSrcFound)
                     const url = 'https://cors-anywhere.herokuapp.com/https://mc.adobe.io/agisinternal/target/offers/content';
                     const offerName = getofferName("ImageOffer")
                     const contentValue = `<img src="${imgSrc}"/>`;
